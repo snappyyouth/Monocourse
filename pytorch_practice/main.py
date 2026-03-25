@@ -5,6 +5,7 @@
 """
 
 import csv
+import os
 import torch
 from collections import Counter
 
@@ -111,6 +112,7 @@ def accuracy(probs, labels):
 
 # ===================== 9. 保存预测结果到 TSV =====================
 def save_predictions(texts, labels, preds, output_path):
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
     with open(output_path, "w", encoding="utf-8", newline="") as f:
         writer = csv.writer(f, delimiter="\t")
         writer.writerow(["text", "true_label", "pred_label"])
@@ -122,8 +124,9 @@ def save_predictions(texts, labels, preds, output_path):
 # ===================== 10. 主流程 =====================
 def main():
     # ---------- 读取数据 ----------
-    train_texts, train_labels = read_tsv("pytorch_practice/new_train.tsv")
-    test_texts, test_labels = read_tsv("pytorch_practice/new_test.tsv")
+    _dir = os.path.dirname(os.path.abspath(__file__))
+    train_texts, train_labels = read_tsv(os.path.join(_dir, "new_train.tsv"))
+    test_texts, test_labels = read_tsv(os.path.join(_dir, "new_test.tsv"))
     print(f"训练集: {len(train_labels)} 条, 测试集: {len(test_labels)} 条")
 
     # ---------- 构建词表 & 词袋向量 ----------
