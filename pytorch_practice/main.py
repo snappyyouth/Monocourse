@@ -26,6 +26,7 @@ def read_tsv(file_path):
 # ===================== 2. 构建词表 =====================
 def build_vocab(texts, max_size=5000):
     """统计词频，保留高频词，返回 word -> index 映射"""
+    # TODO 酒店中NextFind中的词表跟这个有关系吗？
     word_counts = Counter(w for tokens in texts for w in tokens)
     vocab = {"<unk>": 0}
     for word, _ in word_counts.most_common(max_size):
